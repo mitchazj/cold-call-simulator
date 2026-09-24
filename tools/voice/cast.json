@@ -1,0 +1,72 @@
+{
+  "player": {
+    "name": "You (Jordan)",
+    "kokoro": "am_michael",
+    "design": "Male, early 30s, American, bright slick sales-floor voice, fast talker, smiling while speaking, close-mic headset."
+  },
+  "chad": {
+    "name": "Chad Kowalski, VP of Sales",
+    "kokoro": "am_fenrir",
+    "design": "Male, 40s, American, loud alpha sales manager, raspy from yelling, gym-bro cadence, speaks like every sentence is a motivational speech."
+  },
+  "brad": {
+    "name": "Brad (desk 4)",
+    "kokoro": "am_echo",
+    "design": "Male, 20s, American frat bro, smug, loud, celebratory."
+  },
+  "gerald": {
+    "name": "Gerald Pruitt",
+    "kokoro": "am_onyx",
+    "design": "Male, 60s, Oklahoma accent, gravelly, gruff small-business owner, suspicious but secretly lonely, slow deliberate speech."
+  },
+  "karen": {
+    "name": "Karen Whitfield",
+    "kokoro": "af_sarah",
+    "design": "Female, 40s, American, crisp corporate procurement manager, clipped efficient delivery, audibly typing, zero patience."
+  },
+  "tyler": {
+    "name": "Tyler \"T-Bone\" Vance",
+    "kokoro": "am_puck",
+    "design": "Male, 26, Californian crypto founder, vocal fry, hyped, says \"bro\", slightly out of breath from a standing desk treadmill."
+  },
+  "marjorie": {
+    "name": "Dr. Marjorie Ellsworth",
+    "kokoro": "af_aoede",
+    "design": "Female, 70s, American, warm retired dentist, chatty and delighted to have company, meandering, gentle laugh."
+  },
+  "siobhan": {
+    "name": "Siobhan O'Malley",
+    "kokoro": "bf_alice",
+    "design": "Female, 30s, Irish, dry wit, sharp operations executive, amused and skeptical, quick."
+  },
+  "denise": {
+    "name": "Denise (Front Desk)",
+    "kokoro": "af_kore",
+    "design": "Female, 50s, New Jersey receptionist, flat, bored, seen every trick in the book, chewing gum."
+  },
+  "walter": {
+    "name": "Walter Hargrove III",
+    "kokoro": "bm_george",
+    "design": "Male, 70s, old-money mid-Atlantic accent, pompous, languid, faintly disgusted by everything, sipping brandy."
+  },
+  "chip": {
+    "name": "Chip Donnelly",
+    "kokoro": "am_liam",
+    "design": "Male, 30s, American, driving on the highway on speakerphone, distracted, road noise, honks at people."
+  },
+  "sal": {
+    "name": "Sal (wrong number)",
+    "kokoro": "am_eric",
+    "design": "Male, 50s, Brooklyn, friendly and loud, thinks he called a pizzeria, very hungry."
+  },
+  "mom": {
+    "name": "Mom",
+    "kokoro": "af_heart",
+    "design": "Female, 60s, American, warm proud mother, a little worried, speaks softly and lovingly."
+  },
+  "victoria": {
+    "name": "Victoria Sterling",
+    "kokoro": "bf_emma",
+    "design": "Female, 50s, British, ice-cold Fortune 500 CFO, precise, quiet menace, every word costs money."
+  }
+}

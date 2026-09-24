@@ -1,0 +1,31 @@
+{
+  "name": "cold-call-simulator",
+  "version": "1.0.0",
+  "description": "A turn-based, three.js cold-calling simulator with beers, desk snow, and neural voices.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "export": "node tools/export-script.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitchazj/cold-call-simulator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mitchazj/cold-call-simulator/issues"
+  },
+  "homepage": "https://github.com/mitchazj/cold-call-simulator#readme",
+  "dependencies": {
+    "kokoro-js": "^1.2.1",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  },
+  "type": "module"
+}

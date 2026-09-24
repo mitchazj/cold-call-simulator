@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.onnx
+voices-*.bin
+tools/voice/refs/
+tools/voice/script.jsonl
+tools/sfx/prompts.jsonl
+__pycache__/
+.DS_Store

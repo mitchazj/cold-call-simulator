@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COLD CALL — A Turn-Based Sales Tragedy</title>
+    <meta name="description" content="A hyper-real, turn-based cold calling simulator. Beers. Desk snow. Gongs. Neural voices." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=Permanent+Marker&family=VT323&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="gl"></canvas>
+
+    <div id="title">
+      <div class="glow"></div>
+      <div class="logo">
+        <div class="sup">APEX SYNERGY SOLUTIONS PRESENTS</div>
+        <h1>COLD<span>CALL</span></h1>
+        <div class="tag">A Turn-Based Sales Tragedy in Five Business Days</div>
+      </div>
+      <div class="setup">
+        <div class="opt">
+          <label>Voices</label>
+          <div class="seg" id="voiceMode">
+            <button data-v="baked" class="on">Neural pack <small id="packinfo">loading…</small></button>
+            <button data-v="live">Live Kokoro <small>in-browser, ~90 MB</small></button>
+            <button data-v="browser">Browser TTS <small>fallback</small></button>
+          </div>
+          <div id="liveStatus"></div>
+        </div>
+        <button id="start">CLOCK IN <kbd>⏎</kbd></button>
+        <div class="fine">
+          🎧 Headphones recommended. Prospects come down a real telephone line.<br />
+          Moves <kbd>1</kbd>–<kbd>0</kbd> · Freestyle <kbd>F</kbd> · Beer <kbd>Q</kbd> · Snow <kbd>W</kbd> · Coffee <kbd>E</kbd> · Ball <kbd>R</kbd> · Gong <kbd>G</kbd> · Leads <kbd>L</kbd> · Dial <kbd>D</kbd> · Skip line <kbd>Space</kbd>
+        </div>
+        <div class="disclaimer">Satire. Every character is fictional. Don't do cocaine at work. Or at all. Your heart is not a KPI.</div>
+      </div>
+    </div>
+
+    <div id="hud" class="hidden"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
