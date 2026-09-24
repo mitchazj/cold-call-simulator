@@ -15,6 +15,8 @@ npm run dev          # http://localhost:5173
 
 Add `?low` to the URL on weak GPUs (turns off shadows, bloom and MSAA).
 
+**Play online:** https://mitchazj.github.io/cold-call-simulator/ (deployed by `.github/workflows/pages.yml` on every push; enable it once under *Settings → Pages → Source: GitHub Actions*).
+
 ---
 
 ## How to play
