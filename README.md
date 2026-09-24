@@ -2,6 +2,8 @@
 
 > *"Put. That coffee. Down. Coffee's for closers."*
 
+![A call with Walter Hargrove III: the CRT CRM, the six-pack, the mirror, and the sales floor cheering behind you](docs/screenshot.png)
+
 A cold-calling simulator that runs in the browser, built with **three.js**. You're Jordan, a Senior Account Executive (Probation) at Apex Synergy Solutions. You have five business days, a rising quota, a phone, a six-pack of tallboys, a mirror with three lines of Desk Snow™, and a gong.
 
 Every prospect has a real neural voice and reaches you through a band-limited telephone line. Your boss Chad yells from across the sales floor. Brad rings his gong to spite you.

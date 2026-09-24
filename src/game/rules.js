@@ -489,10 +489,10 @@ export function classifyFreestyle(text, pid) {
   for (const [t, re] of Object.entries(LEXICON)) scores[t] = (text.match(re) || []).length;
   if (/\?\s*$/.test(text)) scores.RAPPORT += 0.5;
   if ((text.match(/!/g) || []).length >= 2) scores.URGENCY += 0.5;
-  let tactic = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
-  const matched = tactic[1] > 0;
-  tactic = matched ? tactic[0] : 'RAPPORT';
-  let power = matched ? 16 + Math.min(8, tactic[1] * 2) : 9;
+  const [top, score] = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
+  const matched = score > 0;
+  const tactic = matched ? top : 'RAPPORT';
+  let power = matched ? 14 + Math.min(8, score * 2) : 8;
   const words = text.trim().split(/\s+/).length;
   const notes = [];
   if (words > 45) {
