@@ -273,7 +273,13 @@ export class HUD {
   float(text, color = '#fff', big = false) {
     const f = h('div', 'floater' + (big ? ' big' : ''), text);
     f.style.color = color;
-    f.style.left = 50 + (Math.random() - 0.5) * 16 + '%';
+    // stack simultaneous floaters instead of piling them on top of each other
+    const now = performance.now();
+    this._floatSlots = (this._floatSlots || []).filter((t) => now - t < 900);
+    const slot = this._floatSlots.length;
+    this._floatSlots.push(now);
+    f.style.left = 50 + (slot % 2 ? 1 : -1) * Math.min(slot, 1) * 6 + (Math.random() - 0.5) * 4 + '%';
+    f.style.top = slot * (big ? 44 : 30) + 'px';
     $('#floaters').appendChild(f);
     setTimeout(() => f.remove(), 2200);
   }

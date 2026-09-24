@@ -510,12 +510,13 @@ export const PROSPECTS = {
     city: 'London / New York / Everywhere',
     value: 2400000,
     boss: true,
-    patience: 9,
+    patience: 7,
     interest: 0,
-    threshold: 90,
-    weak: { LOGIC: 1.4, FOMO: 1.3, URGENCY: 1.0, FLATTERY: 0.7, RAPPORT: 0.8, HUMOR: 0.6 },
+    threshold: 95,
+    decay: 10, // her attention is expensive, and it drains
+    weak: { LOGIC: 1.3, FOMO: 1.2, URGENCY: 0.9, FLATTERY: 0.6, RAPPORT: 0.8, HUMOR: 0.5 },
     stubborn: true,
-    notes: ['THE WHALE. $2.4M ARR.', 'Has fired 3 vendors this quarter. By text.', 'Three layers of objections'],
+    notes: ['THE WHALE. $2.4M ARR.', 'Has fired 3 vendors this quarter. By text.', 'Four layers of objections. Clear them ALL.'],
     lines: {
       intro: ["Victoria Sterling. You got past four assistants and a firewall. I'm almost impressed. You have one minute.", "This is Sterling. My assistant says you're the one who won't stop calling. Go on then. Amaze me."],
       pos: ["Hm. That's the first intelligent sentence I've heard from a vendor this year.", "Continue. Carefully.", "Interesting. You may have one more minute."],

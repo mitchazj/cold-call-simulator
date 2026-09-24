@@ -36,7 +36,21 @@ addEventListener('resize', () => {
 const ray = new THREE.Raycaster();
 const ndc = new THREE.Vector2();
 let hovered = null;
+const label = document.createElement('div');
+label.id = 'hoverlabel';
+document.body.appendChild(label);
+const LABELS = {
+  phone: () => (hud.mode === 'call' ? '📵 Hang up (X)' : '📞 Pick up & dial (D)'),
+  beer: () => '🍺 Crack a tallboy (Q)',
+  snow: () => '❄️ Desk Snow™ (W)',
+  coffee: () => '☕ Burnt coffee (E)',
+  ball: () => '🔴 Stress ball (R)',
+  leads: () => '📇 The Glengarry leads (L)',
+  gong: () => '🥁 The gong (G)',
+};
 addEventListener('pointermove', (e) => {
+  label.style.left = e.clientX + 16 + 'px';
+  label.style.top = e.clientY + 12 + 'px';
   ndc.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
   office.look.tYaw = ndc.x * 0.32;
   office.look.tPitch = ndc.y * 0.2;
@@ -54,6 +68,8 @@ function pickHover() {
     hovered = id;
     office.setHighlight(id);
     canvas.style.cursor = id ? 'pointer' : 'default';
+    label.textContent = id ? LABELS[id]() : '';
+    label.style.display = id && !document.getElementById('title') ? 'block' : 'none';
     if (id && hud.mode !== 'off') audio.play('hover');
   }
 }

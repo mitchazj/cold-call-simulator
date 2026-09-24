@@ -661,8 +661,9 @@ export class Office {
     const names = ['BRAD', 'DEB', 'MARCUS', 'PRIYA', 'GUS', 'LAUREN', 'TONY', 'KEIKO', 'RAY', 'STACY'];
     let n = 0;
     for (const z of [-2.8, -5.3, -7.8]) {
-      for (const x of [-4.8, -2.4, 0, 2.4, 4.8]) {
-        if (Math.random() < 0.15 && n > 2) continue;
+      for (const x of [-5.4, -3.2, -1.2, 0, 1.2, 3.2, 5.4]) {
+        if (x === 0) continue; // the center aisle: sightline to the board, and Chad's runway
+        if (Math.random() < 0.12 && n > 2) continue;
         const g = new THREE.Group();
         const top = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.05, 0.9), deskMat);
         top.position.y = DESK_Y;
@@ -713,13 +714,17 @@ export class Office {
 
   async chadWalk(to, faceCamera = true) {
     const c = this.chad;
-    const from = c.root.position.clone();
     const target = v3(...to);
-    const dist = from.distanceTo(target);
+    const start = c.root.position.clone();
+    // Walk via the center aisle, like a person, not through the desks.
+    const legs = [v3(0, 0, start.z), v3(0, 0, target.z), target].filter((p, i, arr) => p.distanceTo(i ? arr[i - 1] : start) > 0.05);
     c.mode = 'walk';
-    c.root.lookAt(target.x, 0, target.z);
-    c.root.rotateY(Math.PI);
-    await tween(dist / 1.6, (k) => c.root.position.lerpVectors(from, target, k), ease.linear);
+    for (const leg of legs) {
+      const from = c.root.position.clone();
+      c.root.lookAt(leg.x, 0, leg.z);
+      c.root.rotateY(Math.PI);
+      await tween(from.distanceTo(leg) / 1.6, (k) => c.root.position.lerpVectors(from, leg, k), ease.linear);
+    }
     if (faceCamera) {
       c.root.lookAt(this.camera.position.x, 0, this.camera.position.z);
       c.root.rotateY(Math.PI);

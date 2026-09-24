@@ -35,7 +35,7 @@ Each call is a **turn-based battle**.
 | Item | Effect |
 |---|---|
 | 🍺 **Tallboy** ×6/day | +Confidence. Buzzed (0.02–0.12 BAC): Rapport/Humor/Flattery ×1.25. Above 0.09 you *slur* (your lines are re-voiced drunk, and moves can misfire). Above 0.22 you black out on your keyboard. |
-| ❄️ **Desk Snow™** ×3/day | +45 Energy, +Confidence, **+40 bpm**. Above 105 bpm you're **wired**: two actions per turn and Urgency ×1.35, but you talk too fast for Rapport. Above 190 bpm you meet the paramedics. 25% nosebleed chance. |
+| ❄️ **Desk Snow™** ×3/day | +45 Energy, +Confidence, **+40 bpm**. Above 120 bpm you're **wired**: two actions per turn and Urgency ×1.35, but you talk too fast for Rapport. Above 190 bpm you meet the paramedics. 25% nosebleed chance. |
 | ☕ **Burnt Coffee** ×4/day | +Energy, a little heart rate. |
 | 🔴 **Stress Ball** | −22 bpm. 3-turn cooldown. |
 | 📇 **Glengarry Leads** | The good leads. Your next dial is a whale. |

@@ -10,6 +10,21 @@ import { voice } from '../audio/voice.js';
 import { tween, wait } from '../scene/tween.js';
 
 const pickI = (arr) => Math.floor(Math.random() * arr.length);
+
+const ACHIEVEMENTS = {
+  firstBlood: ['🩸', 'First Blood', 'Close your first deal.'],
+  steakKnives: ['🔪', 'Steak Knives', 'Close three deals in one day.'],
+  liquidLunch: ['🍺', 'Liquid Lunch', 'Four tallboys before noon.'],
+  speedball: ['🌀', 'Speedball', 'Be wired and slurring at the same time.'],
+  mamasBoy: ['💐', "Mama's Boy", 'Sell SynergyOS to your own mother.'],
+  pizza: ['🍕', 'Extra Cheese', 'Close the guy who wanted a pizza.'],
+  gatecrasher: ['🚪', 'Gatecrasher', 'Get past Denise.'],
+  brassBalls: ['🔔', 'Brass Balls', 'Land the Takeaway on Walter Hargrove III.'],
+  synergy: ['🙅', 'She Said No Synergy', 'Say "synergy" to Siobhan.'],
+  counterPuncher: ['🛡️', 'Counter-Puncher', 'Handle five objections.'],
+  hardStop: ['🚑', 'Hard Stop', 'Leave work in an ambulance.'],
+  whale: ['🐋', 'The Whale', 'Close Victoria Sterling.'],
+};
 const money = (v) => '$' + Math.round(v).toLocaleString();
 
 export class Director {
@@ -28,6 +43,8 @@ export class Director {
       { name: 'YOU', value: 0, you: true },
     ];
     this.fx = { flash: 0, gold: 0, black: 0 };
+    this.unlocked = new Set();
+    this.counters = { countered: 0, closesToday: 0 };
     hud.onSkip = () => voice.stop();
   }
 
@@ -70,12 +87,22 @@ export class Director {
     this.refreshBoard();
   }
 
+  achieve(id) {
+    if (this.unlocked.has(id)) return;
+    this.unlocked.add(id);
+    const [icon, name, desc] = ACHIEVEMENTS[id];
+    audio.play('ding');
+    this.hud.toast(`${icon} <b>${name}</b> — ${desc}`, 'achievement');
+  }
+
   // ── main loop ────────────────────────────────────────────────────────────
   async run() {
     this.hud.setVisible(true);
     this.refreshBoard();
     for (let d = 0; d < DAYS.length; d++) {
       const day = this.game.startDay();
+      this.counters.closesToday = 0;
+      this.beersBeforeNoon = 0;
       this.office.refillDesk();
       this.crmMode = 'idle';
       await this.fade(0, 0.8);
@@ -324,7 +351,13 @@ export class Director {
     }
     for (const n of out.notes) hud.float(n, n === 'SLURRED' || n === 'BACKFIRED' ? '#ff8a8a' : '#9fd3ff');
     if (out.tier === 'pos') audio.play('ding');
-    if (out.countered) audio.play('cash');
+    if (out.countered) {
+      audio.play('cash');
+      if (++this.counters.countered >= 5) this.achieve('counterPuncher');
+    }
+    if (out.freestyle?.notes.includes('SHE SAID NOT TO SAY SYNERGY')) this.achieve('synergy');
+    if (g.player.bac >= 0.09 && g.wired) this.achieve('speedball');
+    if (out.id === 'takeaway' && c.pid === 'walter' && out.gain > 0) this.achieve('brassBalls');
     hud.refresh(g);
 
     // 3. They react
@@ -354,6 +387,7 @@ export class Director {
     const o = this.office;
     const def = g.call.def;
     if (def.gatekeeper) {
+      this.achieve('gatecrasher');
       g.endCall('closed');
       this.hud.float('TRANSFERRED!', '#ffd166', true);
       return this.runCall(def.next, { transferred: true });
@@ -369,6 +403,11 @@ export class Director {
     this.hud.float(`+${money(r.commission)} commission`, '#7dffa1');
     this.hud.toast('🥁 The gong is ready (G)');
     this.refreshBoard();
+    this.achieve('firstBlood');
+    if (++this.counters.closesToday >= 3) this.achieve('steakKnives');
+    if (def.mom) this.achieve('mamasBoy');
+    if (r.pid === 'sal') this.achieve('pizza');
+    if (def.boss) this.achieve('whale');
     if (def.boss) {
       this.victoria = true;
       await this.chadSays('victory');
@@ -434,6 +473,8 @@ export class Director {
     this.hud.busy();
     switch (id) {
       case 'beer': {
+        this.beersBeforeNoon = (g.time < 12 * 60 ? (this.beersBeforeNoon || 0) + 1 : this.beersBeforeNoon) || 0;
+        if (this.beersBeforeNoon >= 4) this.achieve('liquidLunch');
         audio.play('beer_open');
         const idx = ITEMS.beer.perDay - before.beer;
         await wait(0.3);
@@ -498,6 +539,7 @@ export class Director {
       await wait(0.28);
     }
     audio.play('flatline');
+    this.achieve('hardStop');
     this.office.shake = 0;
     await this.fade(1, 1.2);
     audio.play('alarm');
@@ -603,7 +645,10 @@ export class Director {
     return `<div class="stats">
       <div><b>${s.calls}</b>calls</div><div><b>${s.closes}</b>closes</div><div><b>${s.hangups}</b>hang-ups</div>
       <div><b>${money(s.dollars)}</b>booked</div><div><b>${s.beers}</b>tallboys</div><div><b>${s.lines}</b>lines</div>
-      <div><b>${s.coffees}</b>coffees</div><div><b>${s.gongs}</b>gongs rung</div><div><b>${s.freestyles}</b>freestyles</div></div>`;
+      <div><b>${s.coffees}</b>coffees</div><div><b>${s.gongs}</b>gongs rung</div><div><b>${s.freestyles}</b>freestyles</div></div>
+      <div class="achievements">${Object.entries(ACHIEVEMENTS)
+        .map(([id, [icon, name, desc]]) => `<span class="${this.unlocked.has(id) ? 'got' : ''}" title="${desc}">${icon} ${name}</span>`)
+        .join('')}</div>`;
   }
 
   async ending() {

@@ -5,13 +5,13 @@
 import { PROSPECTS, PLAYER_LINES } from '../data/script.js';
 
 export const MOVES = [
-  { id: 'rapport', key: '1', tactic: 'RAPPORT', name: 'Small Talk', power: 14, energy: 7, desc: 'Weather, sports, their logo. Builds trust.' },
+  { id: 'rapport', key: '1', tactic: 'RAPPORT', name: 'Small Talk', power: 12, energy: 7, desc: 'Weather, sports, their logo. Builds trust.' },
   { id: 'discovery', key: '2', tactic: null, name: 'Discovery Question', power: 7, energy: 6, desc: 'Ask about their pain. Reveals weaknesses on the CRM.' },
-  { id: 'logic', key: '3', tactic: 'LOGIC', name: "Hit 'Em With Stats", power: 17, energy: 11, desc: 'Numbers. ROI. Made-up percentages.' },
-  { id: 'urgency', key: '4', tactic: 'URGENCY', name: 'Fake Deadline', power: 17, energy: 11, desc: '"This pricing expires at 5pm."' },
-  { id: 'flattery', key: '5', tactic: 'FLATTERY', name: 'Blow Smoke', power: 15, energy: 7, desc: 'You are a visionary, sir.' },
-  { id: 'fomo', key: '6', tactic: 'FOMO', name: 'Competitor FOMO', power: 17, energy: 10, desc: 'Their rival signed yesterday. Probably.' },
-  { id: 'humor', key: '7', tactic: 'HUMOR', name: 'Crack a Joke', power: 16, energy: 9, desc: 'High risk, high reward. Know your room.' },
+  { id: 'logic', key: '3', tactic: 'LOGIC', name: "Hit 'Em With Stats", power: 14, energy: 11, desc: 'Numbers. ROI. Made-up percentages.' },
+  { id: 'urgency', key: '4', tactic: 'URGENCY', name: 'Fake Deadline', power: 14, energy: 11, desc: '"This pricing expires at 5pm."' },
+  { id: 'flattery', key: '5', tactic: 'FLATTERY', name: 'Blow Smoke', power: 13, energy: 7, desc: 'You are a visionary, sir.' },
+  { id: 'fomo', key: '6', tactic: 'FOMO', name: 'Competitor FOMO', power: 14, energy: 10, desc: 'Their rival signed yesterday. Probably.' },
+  { id: 'humor', key: '7', tactic: 'HUMOR', name: 'Crack a Joke', power: 14, energy: 9, desc: 'High risk, high reward. Know your room.' },
   { id: 'takeaway', key: '8', tactic: null, name: 'The Takeaway', power: 22, energy: 8, desc: '"Maybe this isn\'t for you." Devastating on the stubborn. Risky otherwise.' },
   { id: 'silence', key: '9', tactic: null, name: 'Strategic Silence', power: 0, energy: 0, desc: 'Say nothing. Next move hits twice as hard. Costs patience.' },
   { id: 'close', key: '0', tactic: null, name: 'ALWAYS BE CLOSING', power: 0, energy: 12, desc: 'Ask for the signature. Odds shown on the card.' },
@@ -20,7 +20,7 @@ export const MOVES = [
 
 export const ITEMS = {
   beer: { name: 'Tallboy', icon: '🍺', perDay: 6, desc: '+Confidence, +Buzz. Buzzed charm is real. So is slurring.' },
-  snow: { name: 'Desk Snow™', icon: '❄️', perDay: 3, desc: '+Energy, +Confidence, +Heart rate. Over 105 bpm you act twice per turn. Over 190 you meet the paramedics.' },
+  snow: { name: 'Desk Snow™', icon: '❄️', perDay: 3, desc: '+Energy, +Confidence, +Heart rate. Over 120 bpm you act twice per turn. Over 190 you meet the paramedics.' },
   coffee: { name: 'Burnt Coffee', icon: '☕', perDay: 4, desc: '+Energy, a little +Heart rate.' },
   ball: { name: 'Stress Ball', icon: '🔴', perDay: 99, desc: 'Squeeze. Lowers heart rate. 3-turn cooldown.' },
   leads: { name: 'Glengarry Leads', icon: '📇', perDay: 1, desc: 'The good leads. Next dial is a whale. Between calls only.' },
@@ -36,15 +36,15 @@ export const SHOP = [
 ];
 
 export const DAYS = [
-  { name: 'Monday', quota: 25000 },
-  { name: 'Tuesday', quota: 50000 },
-  { name: 'Wednesday', quota: 80000 },
-  { name: 'Thursday', quota: 120000 },
-  { name: 'Friday', quota: 160000 },
+  { name: 'Monday', quota: 40000 },
+  { name: 'Tuesday', quota: 75000 },
+  { name: 'Wednesday', quota: 110000 },
+  { name: 'Thursday', quota: 160000 },
+  { name: 'Friday', quota: 220000 },
 ];
 
 export const LEAD_POOL = ['gerald', 'karen', 'tyler', 'marjorie', 'siobhan', 'denise', 'chip'];
-export const WIRED_BPM = 105;
+export const WIRED_BPM = 120;
 export const DANGER_BPM = 165;
 export const FATAL_BPM = 190;
 export const BLACKOUT_BAC = 0.22;
@@ -184,7 +184,7 @@ export class Game {
     let p = i >= threshold ? 0.8 + (i - threshold) / 60 : 0.6 * Math.pow(Math.max(0, i) / threshold, 2.2);
     p *= 0.8 + this.player.confidence / 250;
     if (c.objection !== null) p *= 0.5;
-    if (c.def.boss && c.cleared.size < c.def.objections.length - 1) p = Math.min(p, 0.03);
+    if (c.def.boss && c.cleared.size < c.def.objections.length) p = Math.min(p, 0.03);
     return clamp(p, 0.02, 0.98);
   }
 
@@ -220,7 +220,7 @@ export class Game {
     }
 
     const rng = rnd(0.78, 1.22);
-    const confMult = 0.55 + p.confidence / 110;
+    const confMult = 0.6 + p.confidence / 160;
 
     if (id === 'silence') {
       c.silence = 2;
@@ -302,7 +302,7 @@ export class Game {
           power *= 0.6;
           out.notes.push('REPETITIVE');
         }
-        if (Math.random() < 0.08 + p.confidence / 1000) {
+        if (Math.random() < 0.06 + p.confidence / 2000) {
           power *= 1.8;
           out.crit = true;
           out.notes.push('CRUSHED IT');
@@ -315,7 +315,7 @@ export class Game {
     if (c.objection !== null) {
       const obj = c.def.objections[c.objection];
       if (tactic && obj.counter === tactic) {
-        gain = Math.abs(gain) * 1.6 + 6;
+        gain = Math.abs(gain) * 1.35 + 3;
         c.cleared.add(c.objection);
         out.countered = obj;
         c.objection = null;
@@ -350,6 +350,7 @@ export class Game {
     const p = this.player;
     this.advance(6);
     c.patience -= 1;
+    if (c.def.decay) c.interest = clamp(c.interest - c.def.decay, 0, 100);
     // Physiology drifts every turn
     p.hr = clamp(p.hr - 3, 60, 250);
     p.bac = clamp(p.bac - 0.005, 0, 1);
@@ -359,7 +360,7 @@ export class Game {
     if (c.patience <= 0) return { type: 'hangup' };
     const remaining = c.def.objections.map((_, i) => i).filter((i) => !c.used.has(i) && !c.cleared.has(i));
     const bossy = c.def.boss && remaining.length;
-    if (c.objection === null && remaining.length && (bossy || (c.turn >= 1 && Math.random() < 0.4))) {
+    if (c.objection === null && remaining.length && (bossy || (c.turn >= 1 && Math.random() < 0.5))) {
       const i = pick(remaining);
       c.objection = i;
       c.used.add(i);
@@ -410,11 +411,11 @@ export class Game {
     const out = { id, notes: [] };
     switch (id) {
       case 'beer':
-        p.confidence = clamp(p.confidence + 12, 0, 100);
+        p.confidence = clamp(p.confidence + 9, 0, 100);
         p.bac += 0.032;
         p.hr = clamp(p.hr - 4, 60, 250);
         this.stats.beers++;
-        out.notes.push('+12 CONFIDENCE', '+BUZZ');
+        out.notes.push('+9 CONFIDENCE', '+BUZZ');
         break;
       case 'snow':
         p.energy = clamp(p.energy + 45, 0, 100);
